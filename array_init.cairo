@@ -18,3 +18,4 @@ func main{output_ptr : felt*}():
 
     return()
 end
+
