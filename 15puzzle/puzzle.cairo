@@ -146,7 +146,7 @@ end
 func main{output_ptr : felt*, range_check_ptr}():
     alloc_locals
 
-    local loc_list = Location*
+    local loc_list : Location*
     local tile_list : felt*
     local n_steps
 
@@ -154,13 +154,22 @@ func main{output_ptr : felt*, range_check_ptr}():
         locations = program_input['loc_list']
         tiles = program_input['tile_list']
 
-        
+        ids.loc_list = loc_list = segments.add()
+        for i, val in enumerate(locations):
+            memory[loc_list + i] = val
+
+        ids.tile_list = tile_list = segments.add()
+        for i, val in enumerate(tiles):
+            memory[tile_list + i] = val
+
+        ids.n_steps = len(tiles)
+
+        assert len(locations) == 2*(len(tiles) + 1)
     %}
 
-
     check_solution(
-        loc_list = cast(&loc_tuple, Location*),
-        tile_list = cast(&tiles, felt*),
-        n_steps = 4)
+        loc_list = loc_list,
+        tile_list = tile_list,
+        n_steps = n_steps)
     return()
 end
